@@ -1,0 +1,56 @@
+<div class="task-list-container">
+  <mat-card class="task-list-header">
+    <mat-card-title>Task Management</mat-card-title>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="openTaskForm()">
+        <mat-icon>add</mat-icon>
+        Add Task
+      </button>
+      <mat-button-toggle-group [value]="sortField" (change)="changeSortField($event.value)">
+        <mat-button-toggle value="priority">Sort by Priority</mat-button-toggle>
+        <mat-button-toggle value="due_date">Sort by Due Date</mat-button-toggle>
+      </mat-button-toggle-group>
+    </mat-card-actions>
+  </mat-card>
+
+  <div class="task-list">
+    <mat-card *ngFor="let task of tasks" class="task-item" [ngClass]="{'completed': task.completed}">
+      <mat-card-header>
+        <mat-card-title>
+          {{ task.title }}
+          <mat-chip-list>
+            <mat-chip [color]="task.priority === 'high' ? 'warn' : (task.priority === 'medium' ? 'accent' : 'primary')"
+                     selected>
+              {{ task.priority }}
+            </mat-chip>
+          </mat-chip-list>
+        </mat-card-title>
+        <mat-card-subtitle>
+          Due: {{ task.due_date | date }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p>{{ task.description }}</p>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-icon-button (click)="toggleTaskCompletion(task.id!)" [matTooltip]="task.completed ? 'Mark as incomplete' : 'Mark as complete'">
+          <mat-icon>{{ task.completed ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="openTaskForm(task)" matTooltip="Edit task">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteTask(task.id!)" matTooltip="Delete task">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="no-tasks" *ngIf="tasks.length === 0">
+      <mat-card-content>
+        <p>No tasks available. Click "Add Task" to create one.</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

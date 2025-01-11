@@ -1,0 +1,26 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-content {
+  flex: 1;
+  margin-top: 64px; // Height of the toolbar
+  background-color: #f5f5f5;
+  min-height: calc(100vh - 64px);
+
+  @media (max-width: 600px) {
+    margin-top: 56px; // Smaller toolbar height on mobile
+    min-height: calc(100vh - 56px);
+  }
+}
